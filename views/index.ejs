@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>To-Do List</h1>
+
+    <a href="/add" class="add-task-button">Add Task</a>
+
+    <ul>
+        <% tasks.forEach(task => { %>
+            <li class="<%= task.status ? 'completed' : '' %>">
+                <form action="/toggle/<%= task.id %>" method="POST" style="display: inline;">
+                    <input 
+                        type="checkbox" 
+                        name="status" 
+                        <%= task.status ? 'checked' : '' %> 
+                        onchange="this.form.submit();" 
+                    />
+                </form>
+
+                <div class="task-details">
+                    <div class="task-item">
+                        <strong>Title:</strong> <span><%= task.title %></span>
+                    </div>
+                    <div class="task-item">
+                        <strong>Description:</strong> <span><%= task.description %></span>
+                    </div>
+                    <div class="task-dates">
+                        <strong>Created:</strong> <%= new Date(task.createdAt).toLocaleString() %><br>
+                        <strong>Updated:</strong> <%= new Date(task.updatedAt).toLocaleString() %>
+                    </div>
+                </div>
+
+                <div>
+                    <a href="/edit/<%= task.id %>">Edit</a>
+                    <a href="/delete/<%= task.id %>">Delete</a>
+                </div>
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>
